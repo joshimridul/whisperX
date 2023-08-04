@@ -263,7 +263,7 @@ class FasterWhisperPipeline(Pipeline):
         #vad_segments = merge_chunks(vad_segments, 30)
         #vad_segments = merge_chunks(vad_segments, 6)  #MJ edit july 31, 2023
         #vad_segments = merge_chunks(vad_segments, 10)  #MJ edit july 31, 2023
-        vad_segments = merge_chunks(vad_segments, self.merge_threshold)  #MJ edit july 31, 2023
+        vad_segments = merge_chunks(vad_segments, self._merge_threshold)  #MJ edit july 31, 2023
 
         if self.tokenizer is None:
             language = language or self.detect_language(audio)
