@@ -185,11 +185,13 @@ class FasterWhisperPipeline(Pipeline):
             tokenizer=None,
             device: Union[int, str, "torch.device"] = -1,
             framework = "pt",
+            merge_threshold=30, #added
             **kwargs
     ):
         self.model = model
         self.tokenizer = tokenizer
         self.options = options
+        self.merge_threshold = merge_threshold
         self._batch_size = kwargs.pop("batch_size", None)
         self._num_workers = 1
         self._preprocess_params, self._forward_params, self._postprocess_params = self._sanitize_parameters(**kwargs)
@@ -245,7 +247,7 @@ class FasterWhisperPipeline(Pipeline):
 
     def transcribe(
         #self, audio: Union[str, np.ndarray], batch_size=None, num_workers=0, language=None, task=None
-        self, audio: Union[str, np.ndarray], merge_threshold: int = 30, batch_size=None, num_workers=0, language=None, task=None   
+        self, audio: Union[str, np.ndarray], batch_size=None, num_workers=0, language=None, task=None   
     ) -> TranscriptionResult:
         if isinstance(audio, str):
             audio = load_audio(audio)
