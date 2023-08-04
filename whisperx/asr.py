@@ -244,7 +244,8 @@ class FasterWhisperPipeline(Pipeline):
         return final_iterator
 
     def transcribe(
-        self, audio: Union[str, np.ndarray], batch_size=None, num_workers=0, language=None, task=None
+        #self, audio: Union[str, np.ndarray], batch_size=None, num_workers=0, language=None, task=None
+        self, audio: Union[str, np.ndarray], , merge_threshold: int = 30, batch_size=None, num_workers=0, language=None, task=None   
     ) -> TranscriptionResult:
         if isinstance(audio, str):
             audio = load_audio(audio)
@@ -260,7 +261,7 @@ class FasterWhisperPipeline(Pipeline):
         #vad_segments = merge_chunks(vad_segments, 30)
         #vad_segments = merge_chunks(vad_segments, 6)  #MJ edit july 31, 2023
         #vad_segments = merge_chunks(vad_segments, 10)  #MJ edit july 31, 2023
-        vad_segments = merge_chunks(vad_segments, 20)  #MJ edit july 31, 2023
+        vad_segments = merge_chunks(vad_segments, merge_threshold)  #MJ edit july 31, 2023
 
         if self.tokenizer is None:
             language = language or self.detect_language(audio)
