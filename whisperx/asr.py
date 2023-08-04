@@ -245,7 +245,7 @@ class FasterWhisperPipeline(Pipeline):
 
     def transcribe(
         #self, audio: Union[str, np.ndarray], batch_size=None, num_workers=0, language=None, task=None
-        self, audio: Union[str, np.ndarray], , merge_threshold: int = 30, batch_size=None, num_workers=0, language=None, task=None   
+        self, audio: Union[str, np.ndarray], merge_threshold: int = 30, batch_size=None, num_workers=0, language=None, task=None   
     ) -> TranscriptionResult:
         if isinstance(audio, str):
             audio = load_audio(audio)
