@@ -185,13 +185,13 @@ class FasterWhisperPipeline(Pipeline):
             tokenizer=None,
             device: Union[int, str, "torch.device"] = -1,
             framework = "pt",
-            merge_threshold=30, #added
+            #merge_threshold=None, #added
             **kwargs
     ):
         self.model = model
         self.tokenizer = tokenizer
         self.options = options
-        self.merge_threshold = merge_threshold
+        self._merge_threshold = kwargs.pop("merge_threshold", None)
         self._batch_size = kwargs.pop("batch_size", None)
         self._num_workers = 1
         self._preprocess_params, self._forward_params, self._postprocess_params = self._sanitize_parameters(**kwargs)
@@ -247,7 +247,7 @@ class FasterWhisperPipeline(Pipeline):
 
     def transcribe(
         #self, audio: Union[str, np.ndarray], batch_size=None, num_workers=0, language=None, task=None
-        self, audio: Union[str, np.ndarray], batch_size=None, num_workers=0, language=None, task=None   
+        self, audio: Union[str, np.ndarray], batch_size=None, merge_threshold=None, num_workers=0, language=None, task=None   
     ) -> TranscriptionResult:
         if isinstance(audio, str):
             audio = load_audio(audio)
@@ -263,7 +263,7 @@ class FasterWhisperPipeline(Pipeline):
         #vad_segments = merge_chunks(vad_segments, 30)
         #vad_segments = merge_chunks(vad_segments, 6)  #MJ edit july 31, 2023
         #vad_segments = merge_chunks(vad_segments, 10)  #MJ edit july 31, 2023
-        vad_segments = merge_chunks(vad_segments, merge_threshold)  #MJ edit july 31, 2023
+        vad_segments = merge_chunks(vad_segments, self.merge_threshold)  #MJ edit july 31, 2023
 
         if self.tokenizer is None:
             language = language or self.detect_language(audio)
