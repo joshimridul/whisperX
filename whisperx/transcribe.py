@@ -158,7 +158,8 @@ def cli():
         audio = load_audio(audio_path)
         # >> VAD & ASR
         print(">>Performing transcription...")
-        result = model.transcribe(audio, batch_size=batch_size, merge_threshold=merge_threshold)  # MJ added 
+        #result = model.transcribe(audio, batch_size=batch_size, merge_threshold=merge_threshold)  # MJ added 
+        result = model.transcribe(audio, batch_size=batch_size)  # MJ added 
         results.append((result, audio_path))
 
     # Unload Whisper and VAD
