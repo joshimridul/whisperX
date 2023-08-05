@@ -185,7 +185,7 @@ class FasterWhisperPipeline(Pipeline):
             tokenizer=None,
             device: Union[int, str, "torch.device"] = -1,
             framework = "pt",
-            #merge_threshold=None, #added
+            merge_threshold=None, #added
             **kwargs
     ):
         self.model = model
@@ -263,8 +263,8 @@ class FasterWhisperPipeline(Pipeline):
         #vad_segments = merge_chunks(vad_segments, 30)
         #vad_segments = merge_chunks(vad_segments, 6)  #MJ edit july 31, 2023
         #vad_segments = merge_chunks(vad_segments, 10)  #MJ edit july 31, 2023
-        #merge_threshold = merge_threshold or self._merge_threshold
-        vad_segments = merge_chunks(vad_segments, self._merge_threshold)  #MJ edit july 31, 2023
+        merge_threshold = merge_threshold or self._merge_threshold
+        vad_segments = merge_chunks(vad_segments, merge_threshold)  #MJ edit july 31, 2023
 
         if self.tokenizer is None:
             language = language or self.detect_language(audio)
