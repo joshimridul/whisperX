@@ -78,6 +78,7 @@ def cli():
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
     batch_size: int = args.pop("batch_size")
+    merge_threshold: int = args.pop("merge_threshold")  # MJ added
     output_dir: str = args.pop("output_dir")
     output_format: str = args.pop("output_format")
     device: str = args.pop("device")
@@ -156,7 +157,7 @@ def cli():
         audio = load_audio(audio_path)
         # >> VAD & ASR
         print(">>Performing transcription...")
-        result = model.transcribe(audio, batch_size=batch_size)
+        result = model.transcribe(audio, batch_size=batch_size, merge_threshold=merge_threshold)  # MJ added 
         results.append((result, audio_path))
 
     # Unload Whisper and VAD
