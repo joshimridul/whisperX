@@ -79,7 +79,7 @@ def cli():
     args = parser.parse_args().__dict__
     model_name: str = args.pop("model")
     batch_size: int = args.pop("batch_size")
-    merge_threshold: int = args.pop("merge_threshold")  # MJ added
+    #merge_threshold: int = args.pop("merge_threshold")  # MJ added
     output_dir: str = args.pop("output_dir")
     output_format: str = args.pop("output_format")
     device: str = args.pop("device")
